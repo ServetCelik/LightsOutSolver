@@ -4,6 +4,8 @@ public class PuzzleSolver {
     private final Board board;
     private final List<Piece> pieces;
     private final List<String> solution;
+    private long stepCounter = 0;
+    private final long printEvery = 10000000;
 
     public PuzzleSolver(Board board, List<Piece> pieces) {
         this.board = board;
@@ -16,6 +18,10 @@ public class PuzzleSolver {
     }
 
     private boolean solveRecursive(int index, Board currentBoard) {
+        stepCounter++;
+        if (stepCounter % printEvery == 0) {
+            System.out.println("Steps tried: " + stepCounter);
+        }
         if (index == pieces.size()) {
             return currentBoard.isAllZero();
         }
