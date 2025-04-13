@@ -11,6 +11,8 @@ public class PuzzleSolver {
         this.board = board;
         this.pieces = pieces;
         this.solution = new ArrayList<>();
+
+        this.pieces.sort((a, b) -> countX(b) - countX(a));
     }
 
     public List<String> solve() {
@@ -44,5 +46,14 @@ public class PuzzleSolver {
         }
 
         return false;
+    }
+    private int countX(Piece piece) {
+        int count = 0;
+        for (char[] row : piece.getShape()) {
+            for (char c : row) {
+                if (c == 'X') count++;
+            }
+        }
+        return count;
     }
 }
