@@ -11,7 +11,7 @@ public class PuzzleSolver {
         this.board = board;
         this.pieces = pieces;
         this.solution = new ArrayList<>();
-        this.pieces.sort((a, b) -> countX(b) - countX(a));
+        //this.pieces.sort((a, b) -> countX(b) - countX(a));
 
     }
 
@@ -33,7 +33,7 @@ public class PuzzleSolver {
         int maxRow = currentBoard.getRows() - piece.getHeight();
         int maxCol = currentBoard.getCols() - piece.getWidth();
 
-        int pieceMaxImpact = countX(piece);
+        int pieceMaxImpact = piece.countX();
         for (int threshold = pieceMaxImpact; threshold >= 0; threshold--) {
 
             for (int row = 0; row <= maxRow; row++) {
@@ -74,13 +74,5 @@ public class PuzzleSolver {
         return count;
     }
 
-    private int countX(Piece piece) {
-        int count = 0;
-        for (char[] row : piece.getShape()) {
-            for (char c : row) {
-                if (c == 'X') count++;
-            }
-        }
-        return count;
-    }
+
 }

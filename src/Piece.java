@@ -20,4 +20,14 @@ public class Piece {
     public char[][] getShape() {
         return shape;
     }
+
+    public int countX() {
+        int count = 0;
+        for (char[] row : shape) {
+            for (char c : row) {
+                if (c == 'X') count++;
+            }
+        }
+        return count;
+    }
 }
