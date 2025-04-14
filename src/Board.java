@@ -13,6 +13,9 @@ public class Board {
     public Board copy() {
         return new Board(this.cells, this.depth);
     }
+    public int getValue(int row, int col) {
+        return cells[row][col];
+    }
 
     public int getRows() {
         return cells.length;
