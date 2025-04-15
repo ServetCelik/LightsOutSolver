@@ -37,41 +37,42 @@ public class PuzzleSolver {
         Piece piece = pw.piece;
         int originalIndex = pw.index;
 
-        int maxRow = currentBoard.getRows() - piece.getHeight();
-        int maxCol = currentBoard.getCols() - piece.getWidth();
-        int pieceMaxImpact = piece.countX();
+        List<Placement> placements = getAllPlacements(currentBoard, piece);
+        return tryPlacements(placements, index, originalIndex, piece, piece.countX(), currentBoard);
 
-        // Precompute all valid placements with affected score
-        List<Placement> placements = new ArrayList<>();
+    }
+
+    private List<Placement> getAllPlacements(Board board, Piece piece) {
+        List<Placement> result = new ArrayList<>();
+        int maxRow = board.getRows() - piece.getHeight();
+        int maxCol = board.getCols() - piece.getWidth();
+
         for (int row = 0; row <= maxRow; row++) {
             for (int col = 0; col <= maxCol; col++) {
-                int affected = countNonZeroAffected(currentBoard, piece, row, col);
-                placements.add(new Placement(row, col, affected));
+                int affected = countNonZeroAffected(board, piece, row, col);
+                result.add(new Placement(row, col, affected));
             }
         }
+        return result;
+    }
 
-        // Try placements, starting from most greedy threshold
-        for (int threshold = pieceMaxImpact; threshold >= 0; threshold--) {
+    private boolean tryPlacements(List<Placement> placements, int index, int originalIndex, Piece piece, int maxImpact, Board board) {
+        for (int threshold = maxImpact; threshold >= 0; threshold--) {
             for (Placement p : placements) {
                 if (p.affected != threshold) continue;
 
-                Board nextBoard = currentBoard.copy();
+                Board nextBoard = board.copy();
                 nextBoard.apply(piece, p.row, p.col);
                 solution.set(originalIndex, p.col + "," + p.row);
 
-                if (solveRecursive(index + 1, nextBoard)) {
-                    return true;
-                }
+                if (solveRecursive(index + 1, nextBoard)) return true;
 
                 solution.set(originalIndex, "");
             }
-
             if (!solution.get(originalIndex).isEmpty()) return true;
         }
-
         return false;
     }
-
     private int countNonZeroAffected(Board board, Piece piece, int startRow, int startCol) {
         int count = 0;
         for (int i = 0; i < piece.getHeight(); i++) {
