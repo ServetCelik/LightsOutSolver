@@ -15,7 +15,7 @@ public class Main {
         Board board = PuzzleInputParser.parseBoard(lines.get(1), depth);
         List<Piece> pieces = PuzzleInputParser.parsePieces(lines.get(2));
 
-        PuzzleSolver solver = new PuzzleSolver(board, pieces);
+        ParallelSolver solver = new ParallelSolver(board, pieces);
         List<String> solution = solver.solve();
 
         if (solution != null) {

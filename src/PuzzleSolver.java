@@ -24,6 +24,7 @@ public class PuzzleSolver {
     }
 
     private boolean solveRecursive(int index, Board currentBoard) {
+        if (Thread.currentThread().isInterrupted()) return false;
         stepCounter++;
         if (stepCounter % printEvery == 0) {
             System.out.println("Steps tried: " + stepCounter);
