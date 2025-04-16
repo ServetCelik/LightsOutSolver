@@ -6,6 +6,7 @@ public class PuzzleSolver {
     private final List<String> solution;
     private long stepCounter = 0;
     private final long printEvery = 10000000;
+    String taskId;
 
     public PuzzleSolver(Board board, List<Piece> inputPieces) {
         this.board = board;
@@ -17,6 +18,7 @@ public class PuzzleSolver {
 
         this.pieces.sort((a, b) -> b.piece.countX() - a.piece.countX());
         this.solution = new ArrayList<>(Collections.nCopies(inputPieces.size(), ""));
+        taskId = UUID.randomUUID().toString().substring(0, 6);
     }
 
     public List<String> solve() {
@@ -27,7 +29,7 @@ public class PuzzleSolver {
         if (Thread.currentThread().isInterrupted()) return false;
         stepCounter++;
         if (stepCounter % printEvery == 0) {
-            System.out.println("Steps tried: " + stepCounter);
+            System.out.println("Steps tried: " + stepCounter + " with Task :" + taskId);
         }
 
         if (index == pieces.size()) {
